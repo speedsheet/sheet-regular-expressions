@@ -1,0 +1,206 @@
+# Regular Expressions - Next
+
+
+<m>Next<>
+
+	Not After
+	Not Beforce
+
+	Not Starts With
+	Not Ends With
+
+	Sets
+	Group
+	Group?
+
+
+	Or
+	Group or Group
+
+	Date
+
+		<l>https://stackoverflow.com/questions/15491894/regex-to-validate-date-formats-dd-mm-yyyy-dd-mm-yyyy-dd-mm-yyyy-dd-mmm-yyyy<>
+
+<m>Match<>
+
+	fourwordsalluppercase
+
+	one word all lower case
+
+	[a-z]+
+
+
+<m>How To:<>
+
+	Any Case
+	Lower Case
+	Upper Case
+	Word
+	Separated By Comma, Tab, Newline
+
+	Hex Characters / Special Characters
+
+	Date
+	Date Time
+	Time
+	URL
+	Email
+		Warning: Very tricky
+
+			Not recommended with regex:
+
+			Valid:
+
+				Tim_O'Connell+tag.tag@some_domain.com
+				tim@private_domain
+				unicode-유니코드-يونيكود-🙂@somewhere.com
+
+		Simple: ^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$
+		
+		Source of Tests:
+			<l>https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/web_tests/fast/forms/resources/ValidityState-typeMismatch-email.js<>
+
+
+	Phone Number
+	"special characters"
+
+	HTML
+	HTML Set of Tags
+
+
+<m>Cover Reference from:<>
+
+	<b>Patterns<> App
+
+
+<m>Stack Overflow:<>
+
+	<l>https://stackoverflow.com/search?q=regular+expression<>
+
+<m>Cover \\Q <v>...<> \\E:<>
+
+	<l>https://stackoverflow.com/questions/30776860/regular-expression-q-e<>
+
+<m>Cover 20 Items From:
+
+	<l>https://regexland.com/most-common-regular-expressions/<>
+
+<m>Non Capturing Group<>
+
+	<>https://stackoverflow.com/questions/3512471/what-is-a-non-capturing-group-in-regular-expressions<>
+
+<m>Cover These:<>
+
+	<image "https://regexland.com/wp-content/uploads/2021/01/most-common-regular-expressions-pie-graph.webp">
+
+
+<m>By Language / Use
+
+	Source:
+
+		Bash
+
+			=~
+			<l>https://www.networkworld.com/article/2693361/unix-tip-using-bash-s-regular-expressions.html<>
+
+		C
+		C++
+		C#
+		Go
+		Java
+		JavaScript
+		Kotlin
+		PHP
+		Python
+		Ruby
+		Rust
+		Swift
+		Typescript
+		VB
+
+		Microsoft Sql Server
+		MongoDB
+		MySql
+		Oracle
+		PostgreSql
+		Redis
+		sqlite
+
+	Operation:
+
+		<m>Find<>
+		<m>Is Match<>
+		<m>Replace<>
+
+
+### <m>Regular Expressions - Patterns<>
+
+Escape					<c>\\<v>x<><>
+
+Escape These				<c>\\ ^ $ . * + ? - & | {} [] () \<><>
+
+Any Character				<c>.<>
+
+Alphanumeric, _			<c>\\w<>			<#># A-Z, a-z, 0-9, _<>			
+Non Alphanumeric, _		<c>\\W<>
+Digit						<c>\\d<>			<#># 0-9<>	
+Non Digit					<c>\\D<>
+
+White Space				<c>\\s<>
+Non White Space			<c>\\S<>
+
+Starts With				<c>\\A<>
+Ends With				<c>\\Z<>
+Starts or Ends With			<c>\\b<>
+Doesn't Start or Ends With	<c>\\B<>
+
+Set						<c>[<v>a<><v>b<><v>c<>]<>
+Not						<c>^<v>a<><>
+Or						<c><v>a<>|<v>b<><>
+From - To				<c><v>a<>-<v>z<><>
+
+0 or 1					<c>?<>
+0 or More					<c>*<>
+1 or More					<c>+<>
+<c><v>n<><> Times					<c>{<v>n<>}<>
+<c><v>m<><> to <c><v>n<><> Times				<c>{<v>m<>,<v>n<>}<>
+
+Match After				<c>(?\<=<v>after_this<>)<v>match<><>
+Match Before				<c><v>match<>(?=<v>before_this<>)<>
+@
+@ Codes, Syntax
+
+
+
+# Unsorted
+
+\\p{L}		Match any single code point (no idea what that is) in the category "letter"
+\\p{N}		Match any kind of numeric character in any Script
+
+\\Q...\\E		Raw expression match
+
+()  		Group							// Groups a search section together. Can be defined as capture or just match.
+
+
+
+### Match Examples:
+
+<v>XYZ<>			Match exactly '<v>XYZ<>'.
+<v>X<>|<v>Y<>			Matches either <v>X<> or <v>Y<>.
+
+
+### Sets
+
+[abc]		Contains either a, b or c.
+[^abc]		Must not contain a, b or c.
+[abc][xy]		Either a, b or c, and followed by x or y.
+
+
+### Set 1 to n
+
+\\d{1,5}		A set of digits from length 1 to length 5.
+
+
+
+
+
