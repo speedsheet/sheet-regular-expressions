@@ -1,24 +1,62 @@
 # <#>Regular Expressions<> SpeedSheet
 <b>Find what you need, faster.<>
 
+## Summarized
 
-<image "regular-expressions-example.webp">
+<table><col><c>.			<><><col>Any Character<>
+<col><c>^<><><col>Starts With<><col><c>^<v>a<><><>
+<col><c>$<><><col>Ends With<><col><c><v>a<>$<><>
+<col><c>|<><><col>Or<><col><c><v>a<>|<v>b<><><>
+<col> <>
+<col><c>*<><><col>0 or More Times<><col><c><v>a<>*<><>
+<col><c>+<><><col>1 or More Times<><col><c><v>a<>+<><>
+<col><c>?<><><col>0 or 1 Times<><col><c><v>a<>?<><>
+<col><c>{<v>m<>}<><><col><c><v>m<><> Times<><col><c>{<v>3<>}<><>
+<col><c>{<v>m<>,<v>n<>}<><><col><c><v>m<><> to <c><v>n<><> Times<><col><c>{<v>3<>,<v>5<>}<><>
+<col> <>
+<col><c>[<v>abc<>]<><><col>Set  (one of these)<>
+<col><c>[<v>a<>-<v>z<>]<><><col>Set  (in this range)<>
+<col><c>[^<v>abc<>]<><><col>Not In Set  (not one of these)<>
+<col> <>
+<col><c>()<><><col>Group<><col><c>(<v>matching_this<>)<><>
+<col> <>
+<col><c>(?\<=)<><><col>Lookahead<><col><c>(?\<=<v>after_this<>)<><>
+<col><c>(?\<!)<><><col>Negative Lookahead<><col><c>(?\<!<v>not_after_this<>)<><>
+<col> <>
+<col><c>(?=)<><><col>Lookbehind<><col><c>(?=<v>before_this<>)<><>
+<col><c>(?!)<><><col>Negative Lookbehind<><col><c>(?!<v>not_before_this<>)<><>
+<col> <>
+<col><c>\\<v>x<><><><col>Escape (Escape the next character)<>
+<col> <>
+<col><c>\\0<><><col>Null Character<>
+<col><c>\\A<><><col>Start of String<><col><c>\\A(<v>starting_with<>)<><>
+<col><c>\\b<><><col>Beginning or End of Word<>
+<col><c>\\B<><><col>Not Beginning or End of Word<>
+<col><c>\\d<><><col>Digit (0-9)<>
+<col><c>\\D<><><col>Non Digit (0-9)<>
+<col><c>\\f<><><col>Form Feed Character<>
+<col><c>\\n<><><col>Newline<>
+<col><c>\\r<><><col>Carriage Return<>
+<col><c>\\s<><><col>White Space Character<>
+<col><c>\\S<><><col>Non White Space Character<>
+<col><c>\\t<><><col>Tab Character<>
+<col><c>\\w<><><col>Word Character (a-z, A-Z, 0-9, _)<>
+<col><c>\\W<><><col>Non Word Character<>
+<col><c>\\x<><><col>Match Character Hex Value<><col><c>\\x<v>ff<><><>
+<col><c>\\z<><><col>String Ends With<><col><c>(<v>ending_with<>)\\z<><>
+<col><c>\\Z<><><col>String Ends With
+  or Ends With Before Newline<><col><c>(<v>ending_with<>)\\Z<><><>
+
+Special Characters:
+
+<c>. \\ + * ? [ ^ ] $ ( ) { } = ! \< > | : -<>
 
 
-# Summary
+
+# Escape
 
 
-### Case Sensitive
-
-Very much case sensitive in both searches and in expression syntax.
-
-
-### Search Type
-
-Greedy (by default tries to get as much as possible).
-
-
-### Escape
+### Escape Basics
 
 <cb>\\<v>x<><>
 
@@ -31,7 +69,7 @@ Escape these characters:
 
 
 
-### Escape Table
+### Escapes
 
 <card><table><col><b>Character<><><col><b>Escaped<><>
 <col> <>
@@ -59,16 +97,83 @@ Escape these characters:
 <col><c>[ ]<><><col><c>\\[ \\]<><>
 <col><c>( )<><><col><c>\\( \\)<><>
 <col><c>{ }<><><col><c>\\{ \\}<><><><>
+
+
+
+### Match - By Hex Value
+
+<cb>\\x<v>ff<><>
+
+
+Matches a character by its ASCII hex value.
+
+
+Match abc:
+
+<in-2>Expression:
+
+<cb>\\x61\\x62\\x63<>
+
+Matchs 'abc':
+
+<cb>123<m>abc<>456<><>
 @
-@ basics
+@ \\x, ascii, hexadecimal
 
 
 
-### Special Characters
+### Match - Carriage Return
 
-<c>. \\ + * ? [ ^ ] $ ( ) { } = ! \< > | : -<>
+<cb>\\r<>
 
-Escape these if you need to match on them.
+
+Matches the form feed character (0x0D).
+@
+@ \\r
+
+
+### Match - Escape
+
+<cb>\\e<>
+@
+@ \\e
+
+
+### Match - Form Feed
+
+<cb>\\f<>
+
+
+Matches the form feed character (0x0C).
+@
+@ \\f
+
+
+### Match - Newline
+
+<cb>\\n<>
+
+
+Matches the newline / line feed character (0x0A).
+@
+@ \\n, Line Feed
+
+
+### Match - Null
+
+<cb>\\0<>
+@
+@ \\0
+
+
+### Match - Tab Character
+
+<cb>\\t<>
+
+
+Matches the tab character (0x09).
+@
+@ \\t
 
 
 
@@ -83,7 +188,7 @@ Escape these if you need to match on them.
 Matches the expression exactly.
 
 
-Example - Match 'word' Exactly:
+Match 'word' Exactly:
 
 <in-2>Expression:
 
@@ -94,431 +199,6 @@ Matches 'word':
 <cb>This contains a <m>word<> in the sentence.<><>
 @
 @ text, string, sequence, word
-
-
-
-## Match Characters
-@
-@ chars, chars-only, character-only, characters-only
-
-
-### Match Characters - Basics
-
-<table>
-<col>A Specific Character<><col><v>a<><><col>The Actual Character<>
-<col> <>
-<col>Any Character		<><col><c>.	<><>
-<col>Alphanumeric<><col><c>\\w<><><col><c>[A-Za-z0-9_]<><>
-<col>Non Alphanumeric<><col><c>\\W<><><col><c>[^A-Za-z0-9_]<><>
-<col>Digit<><col><c>\\d<><><col><c>[0-9]<><>
-<col>Non Digit<><col><c>\\D<><><col><c>[^0-9]<><>
-<col>Whitespace<><col><c>\\s<><><col><c>[ \\t\\r\\n\\f]<><>
-<col>Non Whitespace<><col><c>\\S<><><col><c>[^ \\t\\r\\n\\f]<><><>
-
-
-
-### Match - Any Character
-
-<cb>.<>
-
-
-Matches any single characater.
-
-
-Example:
-
-<in-2>Match 'a' and some character.
-
-Expression:
-
-<cb><v>a<>.<>
-
-Matches 'ab', 'ac':
-
-<cb><m>ab<>bb<m>ac<>a<><>
-@
-@ ., single, only
-
-
-
-### Match - Any Characters, 1 or More
-
-<card><table><col><c>.		<><><col>1 character<>
-<col><c>.+<><><col>1+ characters<>
-<col><c>.{<v>n<>}<><><col><v>n<> characters<><><>
-
-
-Matches 1 or more characters of any kind.
-
-
-Example:
-
-<in-2>Match 'a' and 3 more characters.
-
-Expression:
-
-<cb><v>a<>.{<v>3<>}<>
-
-Matches 'a123', 'abcd':
-
-<cb><m>a123<>123<m>abcd<>3aaa<><>
-@
-@ ., only, more than
-
-
-
-### Match - Alphanumeric
-
-<cb>\\w<>
-
-
-Matches any of upper case or lower case a to z, any digit 0 to 9 or underscore _.
-
-Same As: <c>[A-Za-z0-9_]<>
-
-
-Example:
-
-<in-2>Match 'a' and 1 alphanumeric character.
-
-Expression:
-
-<cb><v>a<>\\w<>
-
-Matches 'a1', 'aa', 'a_':
-
-<cb>..<m>a1<>11<m>aa<>bc<m>a_<>a!..<><>
-@
-@ \\w, single, a-z, 0-9, _,
-@ letters, numbers, or, and, numeric, only
-
-
-
-### Match - Alphanumerics, 1 or More
-
-<card><table><col><c>\\w		<><><col>1 alphanumerics<>
-<col><c>\\w+<><><col>1+ alphanumerics<>
-<col><c>\\w{<v>n<>}<><><col><v>n<> alphanumerics<><><>
-
-
-Matches 1 or more of upper case or lower case a to z, any digit 0 to 9 or underscore _.
-
-
-Example:
-
-<in-2>Match 'a' with 3 aphanumeric characters.
-
-Expression:
-
-<cb><v>a<>\\w{<v>3<>}<>
-
-Matches 'a123', 'abcd':
-
-<cb><m>a123<>a22<m>abcd<>3aa<><>
-@
-@ \\w, single, a-z, 0-9, _,
-@ letters, numbers, or, and, alphanumerics, numerics, only, more than
-
-
-
-### Match - Non-Alphanumeric
-
-<cb>\\W<>
-
-
-Matches any character except one of these: A-Z, a-z, 0-9, _
-
-Same As: <c>[^A-Za-z0-9_]<>
-
-
-Exmaple:
-
-<in-2>Match 'a' And A Non-Alphanumeric Character.
-
-Expression:
-
-<cb><v>a<>\\W<>
-
-Matches 'a$', 'a!':
-
-<cb>a1<m>a$<>aa<m>a!<>ab<><>
-@
-@ \\w, single, a-z, 0-9, _, letters, numeric, or, only
-
-
-
-### Match - Non-Alphanumerics, 1 or More
-
-<card><table><col><c>\\W		<><><col>1 non-alphanumeric<>
-<col><c>\\W+<><><col>1+ non-alphanumerics<>
-<col><c>\\W{<v>n<>}<><><col><v>n<> non-alphanumerics<><><>
-
-
-Matches 1 or more non-alphanumeric characters.
-
-
-Example:
-
-<in-2>Match 'a' and 2 non-alphanumeric characters.
-
-Expression:
-
-<cb><v>a<>\\W{<v>3<>}<>
-
-Matches 'a$!%', 'a?+!':
-
-<cb>a111<m>a$!%<>aaa<m>a?+!<>ab<><>
-@
-@ \\w, a-z, 0-9, _,
-@ letters, numbers, or, and, alphanumerics, numerics, only, more than
-
-
-
-### Match - Digit
-
-<cb>\\d<>
-
-
-Matches a single digit 0 to 9.
-
-Same As: <c>[0-9]<>
-
-
-Example:
-
-<in-2>Match 'a' and a digit.
-
-Expression:
-
-<cb><v>a<>\\d<>
-
-Matches 'a1', 'a2':
-
-<cb><m>a1<>11ab11<m>a2<><><>
-@
-@ single, \\d, digits, numbers, numeric, 0-9, [0-9], only
-
-
-
-### Match - Digits, 1 Or More
-
-<card><table><col><c>\\d		<><><col>1 digit<>
-<col><c>\\d+<><><col>1+ digits<>
-<col><c>\\d{<v>n<>}<><><col><v>n<> digits<><><>
-
-
-Matches 1 or more digits.
-
-
-Example:
-
-<in-2>Match 'a' and 1 or more digits.
-
-Expression:
-
-<cb><v>a<>\\d+<>
-
-Matches 'a1', 'a333':
-
-<cb><m>a1<>ab22<m>a333<>aa<><>
-
-
-Example:
-
-<in-2>Match 'a' followed by 3 digits.
-
-Expression:
-
-<cb><v>a<>\\d{<v>3<>}<>
-
-Matches a111, a333:
-
-<cb><m>a111<>a22<m>a333<>3aa<><>
-@
-@ \\d, digits, numbers, numeric, 0-9, [0-9], only, more than
-
-
-
-### Match - Non-Digit
-
-<cb>\\D<>
-
-
-Matches a single non-digit.
-
-Same As: <c>[^0-9]<>
-
-
-Example:
-
-<in-2>Match 'a' followed by a non-digit.
-
-Expression:
-
-<cb><v>a<>\\D<>
-
-Matches 'aa', 'ab':
-
-<cb><m>aa<>a1<m>ab<>a2<><>
-@
-@ single, \\d, numbers, numeric, 0-9, [^0-9], only
-
-
-
-### Match - Non-Digits, 1 or More
-
-<card><table><col><c>\\D		<><><col>1 non-digit<>
-<col><c>\\D+<><><col>1+ non-digits<>
-<col><c>\\D{<v>n<>}<><><col><v>n<> non-digits<><><>
-
-
-Matches 1 or more non-digits.
-
-
-Example:
-
-<in-2>Match 'a' followed by all non-digits.
-
-Expression:
-
-<cb><v>a<>\\D+<>
-
-Matches 'abbbbbabb', 'a$$$a', 'aa':
-
-<cb><m>abbbbbabb<>1<m>a$$$a<>111<m>aa<><><>
-
-
-Example:
-
-<in-2>Match 'a' followed by 3 non-digits.
-
-Expression:
-
-<cb><v>a<>\\D{<v>3<>}<>
-
-Matches 'abbb', 'a$$$':
-
-<cb><m>abbb<>bbabb1<m>a$$$<>a111aa<><>
-@
-@ \\d, numbers, numeric, 0-9, [^0-9], only, more than
-
-
-
-### Match - Whitespace
-
-<cb>\\s<>
-
-
-Match a single whitespace character (space, tab, newline, carriage return, form feed).
-
-Same As: <c>[ \\t\\r\\n\\f]<>
-
-
-Example:
-
-<in-2>Match 'a' followed by a whitespace.
-
-Expression:
-
-<cb><v>a<>\\s<>
-
-Matches 'a ' 'a	':
-
-<cb>a<m>a <>aa<m>a	<>a<><>
-@
-@ single, \\s, space, tab, newline, carriage return, only
-
-
-
-### Match - Whitespaces, 1 or More
-
-<card><table><col><c>\\s		<><><col>1 whitespace<>
-<col><c>\\s+<><><col>1+ whitespaces<>
-<col><c>\\s{<v>n<>}<><><col><v>n<> whitespaces<><><>
-
-
-Matches 1 or more whitespaces.
-
-
-
-Example:
-
-<in-2>Match 'a' followed by 1 or more whitespace.
-
-Expression:
-
-<cb><v>a<>\\s+<>
-
-Matches 'a    ' 'a		':
-
-<cb>a<m>a    <>aa<m>a		<>a<><>
-@
-@ \\s, spaces, tabs, newlines, carriage returns, only, more than
-
-
-
-### Match - Non-Whitespace
-
-<cb>\\S<>
-
-
-Match a single non-whitespace character (space, tab, newline, carriage return, form feed).
-
-Same As: <c>[^ \\t\\r\\n\\f]<>
-
-
-Example:
-
-<in-2>Match 'a' followed by a non-whitespace.
-
-Expression:
-
-<cb><v>a<>\\S<>
-
-Matches 'aa', 'ab':
-
-<cb><m>aa<>a <m>ab<>a <><>
-@
-@ single, \\s, space, tab, newline, carriage return
-
-
-
-### Match - Non-Whitespaces, 1 or More
-
-<card><table><col><c>\\S		<><><col>1 non-whitespace<>
-<col><c>\\S+<><><col>1+ non-whitespaces<>
-<col><c>\\S{<v>n<>}<><><col><v>n<> non-whitespaces<><><>
-
-
-Matches 1 or more non-whitespaces.
-
-
-Example:
-
-<in-2>Match 'a' followed by all non-whitespace.
-
-Expression:
-
-<cb><v>a<>\\S+<>
-
-Matches 'abbbb', 'a$$$', 'aa':
-
-<cb><m>abbbb<> <m>a$$$<>   <m>aa<><><>
-
-
-Example:
-
-<in-2>Match 'a' followed by 3 non-whitespaces.
-
-Expression:
-
-<cb><v>a<>\\S{<v>3<>}<>
-
-Matches 'abbb', 'a$$$':
-
-<cb><m>abbb<>bbabb <m>a$$$<>a   aa<><>
-@
-@ \\s, spaces, tabs, newlines, carriage returns, only, more than
 
 
 
@@ -536,6 +216,7 @@ Matches 'abbb', 'a$$$':
 <col><v>m<> to <v>n<> Times<><col>{<v>m<>,<v>n<>}<><>
 @
 @ times
+@ 1+
 
 
 
@@ -577,7 +258,7 @@ Matches aaab, b:
 
 <cb><m>aaab<>aacc<m>b<><>
 @
-@ *, 0, zero 
+@ *, 0, zero, 0+
 
 
 
@@ -598,7 +279,7 @@ Matches aaab, ab:
 
 <cb><m>aaab<>bb<m>a<>b<>
 @
-@ +, 0, 1, one
+@ +, 1, 1+, one
 
 
 ### Match - m Times
@@ -672,19 +353,23 @@ Matches aa, aaa, aaa:
 
 ### Match Positional - Basics
 
-<table><col>After			<><col><c>(?\<=<v>prefix<>)<><>
-<col>Before<><col><c>(?=<v>postfix<>)<><>
+<table><col>After			<><col><c>(?\<=<v>after_this<>)<><>
+<col>Before<><col><c>(?=<v>before_this<>)<><>
 <col> <>
 <col>Starting With<><col><c>^<v>a<><><>
-<col>Ending With<><col><c><v>a<>$<><><>
+<col>Ending With<><col><c><v>a<>$<><>
+<col> <>
+<col>Starting With<><col><c>\\A<v>a<><><>
+<col>Ending With<><col><c><v>a<>\\z<><>
+<col>Ending With<><col><c><v>a<>\\Z<><><>
 
 
 
-### Match - After / Look Ahead
+### Match - After / Lookahead
 
-<cb>(?\<=<v>prefix<>)<>
+<cb>(?\<=<v>after_this<>)<>
 
-<cb>(?\<=<v>prefix<>)<v>expression<><>
+<cb>(?\<=<v>after_this<>)<v>match<><>
 
 
 Matches a string after the prefix.
@@ -693,11 +378,9 @@ Performs a look ahead to make the match.
 Excludes the prefix in the match.
 
 
-Example:
+Match 3 digits after 'pre':
 
-<in-2>Match after 'pre'.
-
-Expression:
+<in-2>Expression:
 
 <cb>(?\<=<v>pre<>)<v>\\d{3}<><>
 
@@ -706,15 +389,48 @@ Matches '222':
 <cb>111<v>pre<><m>222<>aaa333<><>
 @
 @ (?\<=), ?\<=
-@ prefix, starting with, starts with, look ahead
+@ prefix, starting with, starts with, look ahead, look around, lookaround
 
 
 
-### Match - Before / Look Behind
+### Match - Not After / Negative Lookahead
 
-<cb>(?=<v>postfix<>)<>
+<cb>(?\<!<v>not_after_this<>)<>
 
-<cb><v>expression<>(?=<v>postfix<>)<>
+<cb>(?\<!<v>not_after_this<>)<v>match<><>
+
+
+Matches a string excluding where the prefix is present.
+
+Performs a look ahead to make the match.
+Excludes the prefix in the match.
+
+
+Match 3 digits when no 'pre' prefix:
+
+<in-2>Expression:
+
+<cb>(?\<!<v>pre<>)<v>\\d{3}<><>
+
+No Match:
+
+<cb>pre123<>
+
+Matches '222':
+
+<cb>abc<m>222<>efg<><>
+@
+@ (?\<!), ?\<!
+@ prefix, not starting with, not starts with, look ahead, look around, lookaround
+@ excludes, excluding, except when
+
+
+
+### Match - Before / Lookbehind
+
+<cb>(?=<v>before_this<>)<>
+
+<cb><v>match<>(?=<v>before_this<>)<>
 
 
 Matches a string before the postfix.
@@ -723,11 +439,9 @@ Performs a look behind to make the match.
 Excludes the postfix in the match.
 
 
-Example:
+Match 3 digits before 'post':
 
-<in-2>Match before 'post'.
-
-Expression:
+<in-2>Expression:
 
 <cb><v>\\d{3}<>(?=<v>post<>)<>
 
@@ -736,7 +450,40 @@ Matches '222':
 <cb>111aaa<m>222<><v>post<>333<><>
 @
 @ (?=), ?=
-@ suffix, postfix, ends with, ending with, look behind
+@ suffix, postfix, ends with, ending with, look behind, look around, lookaround
+
+
+
+### Match - Not Before / Negative Lookbehind
+
+<cb>(?!<v>not_before_this<>)<>
+
+<cb><v>match<>(?!<v>not_before_this<>)<>
+
+
+Matches a string excluding where the postfix exists.
+
+Performs a look behind to make the match.
+Excludes the postfix in the match.
+
+
+Match 3 digits, no trailing 'post':
+
+<in-2>Expression:
+
+<cb><v>\\d{3}<>(?!<v>post<>)<>
+
+No Match:
+
+<cb>aaa222<v>post<><>
+
+Matches '222':
+
+<cb>aaa<m>222<>not-post<><>
+@
+@ (?!), ?!
+@ suffix, postfix, not ends with, not ending with, look behind, look around, lookaround
+@ excludes, excluding, except when
 
 
 
@@ -745,8 +492,8 @@ Matches '222':
 <cb>^<>
 
 <card><table><col><c>^<v>a<><><><col>Starting With Single Character<>
-<col><c>^(<v>prefix<>)<><><col>Starting With Text '<c><v>prefix<><>'<>
-<col><c>^<v>start<>remaining<><><col>Starting With Matching <c><v>start<><> (expression)<><><>
+<col><c>^(<v>starting_with<>)<><><col>Starting With Text '<c><v>starting_with<><>'<>
+<col><c>^<v>starting_with<>remaining<><><col>Starting With Matching <c><v>starting_with<><> (expression)<><><>
 
 
 Matches the very start of a string.
@@ -754,11 +501,9 @@ Matches the very start of a string.
 <c>^<> must be the first character the expression to match the start of a string.
 
 
-Example:
+Match strings starting with 1:
 
-<in-2>Match strings starting with 1.
-
-Expression:
+<in-2>Expression:
 
 <cb>^<v>1<>\\d+<>
 
@@ -768,16 +513,14 @@ Matches '1234':
 
 No Match For:
 
-<cb>2345 1234<><>
+<cb>.1234 1234<><>
 
 
-Example:
+Match strings starting with 'prefix':
 
-<in-2>Match strings starting with 'pre'.
+<in-2>Expression:
 
-Expression:
-
-<cb>^<v>(pre)<>\\w+<>
+<cb>^<v>(prefix)<>\\w+<>
 
 Matches 'prefixed_word':
 
@@ -791,13 +534,44 @@ No Match For:
 
 
 
+### Match - Starting With / Start Anchor
+
+<cb>\\A<>
+
+<card><table><col><c>\\A<v>a<><><><col>Starting With Single Character<>
+<col><c>\\A(<v>starting_with<>)<><><col>Starting With Text '<c><v>starting_with<><>'<><><>
+
+
+Matches the very start of a string.
+
+<c>^<> must be the first character the expression to match the start of a string.
+
+
+Match strings starting with 1:
+
+<in-2>Expression:
+
+<cb>\\A<v>1<>\\d+<>
+
+Matches '1234':
+
+<cb><m>1234<><>
+
+No Match For:
+
+<cb>.1234 1234<><>
+@
+@ prefix, starts, \\A
+
+
+
 ### Match - Ending With / End Anchor
 
 <cb>$<>
 
 <card><table><col><c><v>a<>$<><><col>Ending With Single Character<>
-<col><c>(<v>postfix<>)$<><><col>Ending With Text '<c><v>postfix<><>'<>
-<col><c>leading<v>end<>$<><><col>Ending With Matching <c><v>end<><> (expression)<><><>
+<col><c>(<v>ending_with<>)$<><><col>Ending With Text '<c><v>ending_with<><>'<>
+<col><c>match<v>end<>$<><><col>Ending With Matching <c><v>end<><> (expression)<><><>
 
 
 Matches the very end of a string.
@@ -805,11 +579,9 @@ Matches the very end of a string.
 <c>^<> must be the last character the expression to match the end of a string.
 
 
-Example:
+Match strings ending with 1:
 
-<in-2>Match strings ending with 1.
-
-Expression:
+<in-2>Expression:
 
 <cb>\\d+<v>1<>$<>
 
@@ -822,11 +594,9 @@ No Match For:
 <cb>5432<><>
 
 
-Example:
+Match strings ending with 'post'.
 
-<in-2>Match strings ending with 'post'.
-
-Expression:
+<in-2>Expression:
 
 <cb>\\w+(<v>post<>)$<>
 
@@ -839,6 +609,614 @@ No Match For:
 <cb>post_not_after_word<><>
 @
 @ postfix, suffix, ends, $
+
+
+
+### Match - Ending With / End Anchor
+
+<cb>\\z<>
+
+<card><table><col><c><v>a<>\\z<><><col>Ending With Single Character<>
+<col><c>(<v>ending_with<>)\\z<><><col>Ending With Text '<c><v>ending_with<><>'<><><>
+
+
+Matches the very end of a string.
+
+<c>\\z<> must be the last character the expression to match the end of a string.
+
+
+Match strings ending with 1:
+
+<in-2>Expression:
+
+<cb>\\d+<v>1<>\\z<>
+
+Matches '4321':
+
+<cb><m>4321<><>
+
+No Match For:
+
+<cb>5432<><>
+@
+@ postfix, suffix, ends, \\z
+
+
+
+### Match - Ending With or Before Newline
+
+<cb>\\Z<>
+
+<card><table><col><c><v>a<>\\Z<><><col>Ending With Single Character<>
+<col><c>(<v>ending_with<>)\\Z<><><col>Ending With Text '<c><v>ending_with<><>'<><><>
+
+
+Matches the very end of a string or up to newline if present.
+
+<c>\\Z<> must be the last character the expression to match the end.
+
+
+Match strings ending with 1:
+
+<in-2>Expression:
+
+<cb>\\d+<v>1<>\\Z<>
+
+Matches '4321':
+
+<cb><m>4321<><>
+
+No Match For:
+
+<cb>5432<><>
+@
+@ postfix, suffix, ends, \\z
+
+
+
+## Matching - Group
+
+
+### Matching - Group Expression
+
+<cb>(<v>expression<>)<>
+
+
+Matches a exspression.
+
+
+Match abc or def:
+
+<in-2>Expression:
+
+<cb>(abc)|(def)<>
+
+Matches 'abc', 'def':
+
+<cb>123<m>abc<>456<m>def<>789<><>
+@
+@ (), capture group
+
+
+
+### Matching - Name a Group
+
+<cb>(\<<v>name<>><v>expression<>)
+
+('<v>name<>'<v>expression<>)<>
+
+
+Matches a expression and assigns it a name.
+@
+@ (), (\<>), (''), named, capture group
+
+
+
+## Matching - Set
+@
+@ []
+
+
+### Match Set - Basics
+
+<table><col><c>[<v>abc<>]		<><><col>Set, One of These Characters<>
+<col><c>[<v>a<>-<v>z<>]<><><col>Set, Range<>
+<col><c>[^<v>abc<>]<><><col>Not In Set<>
+<col><c>[^<v>a<>-<v>z<>]<><><col>Not In Set Range<><>
+
+
+
+### Match Set - Any One Of
+
+<cb>[<v>abc<>]<>
+
+
+Matches any one of the values in the set (between <c>[<> and <c>]<>).
+
+
+Match any three a, b or cs:
+
+<in-2>Expression:
+
+<cb>[abc]{3}<>
+
+Matches 'aaa', 'abc':
+
+<cb><m>aaa<>def<m>abc<>hij<><>
+
+
+
+### Match Set - Any in Range
+
+<cb>[<v>a-z<>]<>
+
+
+Matches any one of the values in the given range (between <c>[<> and <c>]<>).
+
+
+Match any three letters between a and c:
+
+<in-2>Expression:
+
+<cb>[a-c]{3}<>
+
+Matches 'aaa', 'abc':
+
+<cb><m>aaa<>efg<m>abc<>hij<><>
+
+
+
+### Match Set - Excluding / None of
+
+<cb>[^<v>abc<>]<>
+
+
+Matches any value excluding those in the set (between <c>[^<> and <c>]<>).
+
+
+Match any three letters but not a, b, c:
+
+<in-2>Expression:
+
+<cb>[^abc]{3}<>
+
+Matches 'efg', 'hij':
+
+<cb>aaa<m>efg<>abc<m>hij<><><>
+@
+@ exclude, excluding, except when, not
+
+
+
+### Match Set - Excluding / None In Range
+
+<cb>[^<v>a-c<>]<>
+
+
+Matches any value excluding those in range (between <c>[^<> and <c>]<>).
+
+
+Match any three letters but not a, b, c:
+
+<in-2>Expression:
+
+<cb>[^a-c]{3}<>
+
+Matches 'efg', 'hij':
+
+<cb>aaa<m>efg<>abc<m>hij<><><>
+@
+@ exclude, excluding, except when, not
+
+
+
+## Match - Characters
+@
+@ chars, chars-only, character-only, characters-only
+
+
+### Match Characters - Basics
+
+<table><col>A Specific Character<><col><v>a<><><col>The Actual Character<>
+<col> <>
+<col>Any Character		<><col><c>.	<><>
+<col>Alphanumeric<><col><c>\\w<><><col><c>[A-Za-z0-9_]<><>
+<col>Non Alphanumeric<><col><c>\\W<><><col><c>[^A-Za-z0-9_]<><>
+<col>Digit<><col><c>\\d<><><col><c>[0-9]<><>
+<col>Non Digit<><col><c>\\D<><><col><c>[^0-9]<><>
+<col>Whitespace<><col><c>\\s<><><col><c>[ \\t\\r\\n\\f]<><>
+<col>Non Whitespace<><col><c>\\S<><><col><c>[^ \\t\\r\\n\\f]<><><>
+
+
+
+### Match - Any Character
+
+<cb>.<>
+
+
+Matches any single characater.
+
+
+Match 'a' and some character:
+
+<in-2>Expression:
+
+<cb><v>a<>.<>
+
+Matches 'ab', 'ac':
+
+<cb><m>ab<>bb<m>ac<>a<><>
+@
+@ ., single, only
+
+
+
+### Match - Any Characters, 1 or More
+
+<cb><c>.+<><>
+
+<card><table><col><c>.		<><><col>1 character<>
+<col><c>.+<><><col>1 or more characters<>
+<col><c>.{<v>n<>}<><><col><v>n<> characters<><><>
+
+
+Matches 1 or more characters of any kind.
+
+
+Match 'a' and 3 more characters:
+
+<in-2>Expression:
+
+<cb><v>a<>.{<v>3<>}<>
+
+Matches 'a123', 'abcd':
+
+<cb><m>a123<>123<m>abcd<>3aaa<><>
+@
+@ 1+
+@ ., only, more than, everything, every character, all
+
+
+
+### Match - Alphanumeric
+
+<cb>\\w<>
+
+
+Matches any of upper case or lower case a to z, any digit 0 to 9 or underscore _.
+
+Same As: <c>[A-Za-z0-9_]<>
+
+
+Match 'a' and 1 alphanumeric character:
+
+<in-2>Expression:
+
+<cb><v>a<>\\w<>
+
+Matches 'a1', 'aa', 'a_':
+
+<cb>..<m>a1<>11<m>aa<>bc<m>a_<>a!..<><>
+@
+@ \\w, single, a-z, 0-9, _,
+@ letters, numbers, or, and, numeric, only
+
+
+
+### Match - Alphanumerics, 1 or More
+
+<cb><c>\\w+<><>
+
+<card><table><col><c>\\w		<><><col>1 alphanumerics<>
+<col><c>\\w+<><><col>1 or more alphanumerics<>
+<col><c>\\w{<v>n<>}<><><col><v>n<> alphanumerics<><><>
+
+
+Matches 1 or more of upper case or lower case a to z, any digit 0 to 9 or underscore _.
+
+
+Match 'a' with 3 aphanumeric characters.
+
+<in-2>Expression:
+
+<cb><v>a<>\\w{<v>3<>}<>
+
+Matches 'a123', 'abcd':
+
+<cb><m>a123<>a22<m>abcd<>3aa<><>
+@
+@ 1+
+@ \\w, single, a-z, 0-9, _,
+@ letters, numbers, or, and, alphanumerics, numerics, only, more than, every, all
+
+
+
+### Match - Non-Alphanumeric
+
+<cb>\\W<>
+
+
+Matches any character except one of these: A-Z, a-z, 0-9, _
+
+Same As: <c>[^A-Za-z0-9_]<>
+
+
+Match 'a' And A Non-Alphanumeric Character:
+
+<in-2>Expression:
+
+<cb><v>a<>\\W<>
+
+Matches 'a$', 'a!':
+
+<cb>a1<m>a$<>aa<m>a!<>ab<><>
+@
+@ \\w, single, a-z, 0-9, _, letters, numeric, or, only
+
+
+
+### Match - Non-Alphanumerics, 1 or More
+
+<cb><c>\\W+<><>
+
+<card><table><col><c>\\W		<><><col>1 non-alphanumeric<>
+<col><c>\\W+<><><col>1 or more non-alphanumerics<>
+<col><c>\\W{<v>n<>}<><><col><v>n<> non-alphanumerics<><><>
+
+
+Matches 1 or more non-alphanumeric characters.
+
+
+Match 'a' and 2 non-alphanumeric characters:
+
+<in-2>Expression:
+
+<cb><v>a<>\\W{<v>3<>}<>
+
+Matches 'a$!%', 'a?+!':
+
+<cb>a111<m>a$!%<>aaa<m>a?+!<>ab<><>
+@
+@ 1+
+@ \\w, a-z, 0-9, _,
+@ letters, numbers, or, and, alphanumerics, numerics, only, more than, every, all
+
+
+
+### Match - Digit
+
+<cb>\\d<>
+
+
+Matches a single digit 0 to 9.
+
+Same As: <c>[0-9]<>
+
+
+Match 'a' and a digit:
+
+<in-2>Expression:
+
+<cb><v>a<>\\d<>
+
+Matches 'a1', 'a2':
+
+<cb><m>a1<>11ab11<m>a2<><><>
+@
+@ single, \\d, digits, numbers, numeric, 0-9, [0-9], only
+
+
+
+### Match - Digits, 1 Or More
+
+<cb><c>\\d+<><>
+
+<card><table><col><c>\\d		<><><col>1 digit<>
+<col><c>\\d+<><><col>1 or more digits<>
+<col><c>\\d{<v>n<>}<><><col><v>n<> digits<><><>
+
+
+Matches 1 or more digits.
+
+
+Match 'a' and 1 or more digits:
+
+<in-2>Expression:
+
+<cb><v>a<>\\d+<>
+
+Matches 'a1', 'a333':
+
+<cb><m>a1<>ab22<m>a333<>aa<><>
+
+
+Match 'a' followed by 3 digits.
+
+<in-2>Expression:
+
+<cb><v>a<>\\d{<v>3<>}<>
+
+Matches a111, a333:
+
+<cb><m>a111<>a22<m>a333<>3aa<><>
+@
+@ 1+
+@ \\d, digits, numbers, numeric, 0-9, [0-9], only, more than, every, all
+
+
+
+### Match - Non-Digit
+
+<cb>\\D<>
+
+
+Matches a single non-digit.
+
+Same As: <c>[^0-9]<>
+
+
+Match 'a' followed by a non-digit:
+
+<in-2>Expression:
+
+<cb><v>a<>\\D<>
+
+Matches 'aa', 'ab':
+
+<cb><m>aa<>a1<m>ab<>a2<><>
+@
+@ single, \\d, numbers, numeric, 0-9, [^0-9], only
+
+
+
+### Match - Non-Digits, 1 or More
+
+<cb><c>\\D+<><>
+
+<card><table><col><c>\\D		<><><col>1 non-digit<>
+<col><c>\\D+<><><col>1 or more non-digits<>
+<col><c>\\D{<v>n<>}<><><col><v>n<> non-digits<><><>
+
+
+Matches 1 or more non-digits.
+
+
+Match 'a' followed by all non-digits:
+
+<in-2>Expression:
+
+<cb><v>a<>\\D+<>
+
+Matches 'abbbbbabb', 'a$$$a', 'aa':
+
+<cb><m>abbbbbabb<>1<m>a$$$a<>111<m>aa<><><>
+
+
+Match 'a' followed by 3 non-digits:
+
+<in-2>Expression:
+
+<cb><v>a<>\\D{<v>3<>}<>
+
+Matches 'abbb', 'a$$$':
+
+<cb><m>abbb<>bbabb1<m>a$$$<>a111aa<><>
+@
+@ 1+
+@ \\d, numbers, numeric, 0-9, [^0-9], only, more than
+
+
+
+### Match - Whitespace
+
+<cb>\\s<>
+
+
+Match a single whitespace character (space, tab, newline, carriage return, form feed).
+
+Same As: <c>[ \\t\\r\\n\\f]<>
+
+
+Match 'a' followed by a whitespace:
+
+<in-2>Expression:
+
+<cb><v>a<>\\s<>
+
+Matches 'a ' 'a	':
+
+<cb>a<m>a <>aa<m>a	<>a<><>
+@
+@ single, \\s, space, tab, newline, carriage return, only
+
+
+
+### Match - Whitespaces, 1 or More
+
+<cb><c>\\s+<><>
+
+<card><table><col><c>\\s		<><><col>1 whitespace<>
+<col><c>\\s+<><><col>1 or more whitespaces<>
+<col><c>\\s{<v>n<>}<><><col><v>n<> whitespaces<><><>
+
+
+Matches 1 or more whitespaces.
+
+
+Match 'a' followed by 1 or more whitespace:
+
+<in-2>Expression:
+
+<cb><v>a<>\\s+<>
+
+Matches 'a    ' 'a		':
+
+<cb>a<m>a    <>aa<m>a		<>a<><>
+@
+@ 1+
+@ \\s, spaces, tabs, newlines, carriage returns, only, more than
+
+
+
+### Match - Non-Whitespace
+
+<cb>\\S<>
+
+
+Match a single non-whitespace character (space, tab, newline, carriage return, form feed).
+
+Same As: <c>[^ \\t\\r\\n\\f]<>
+
+
+Match 'a' followed by a non-whitespace:
+
+<in-2>Expression:
+
+<cb><v>a<>\\S<>
+
+Matches 'aa', 'ab':
+
+<cb><m>aa<>a <m>ab<>a <><>
+@
+@ single, \\s, space, tab, newline, carriage return
+
+
+
+### Match - Non-Whitespaces, 1 or More
+
+<cb><c>\\S+<><>
+
+<card><table><col><c>\\S		<><><col>1 non-whitespace<>
+<col><c>\\S+<><><col>1 or more non-whitespaces<>
+<col><c>\\S{<v>n<>}<><><col><v>n<> non-whitespaces<><><>
+
+
+Matches 1 or more non-whitespaces.
+
+
+Match 'a' followed by all non-whitespace:
+
+<in-2>Expression:
+
+<cb><v>a<>\\S+<>
+
+Matches 'abbbb', 'a$$$', 'aa':
+
+<cb><m>abbbb<> <m>a$$$<>   <m>aa<><><>
+
+
+Match 'a' followed by 3 non-whitespaces:
+
+<in-2>Expression:
+
+<cb><v>a<>\\S{<v>3<>}<>
+
+Matches 'abbb', 'a$$$':
+
+<cb><m>abbb<>bbabb <m>a$$$<>a   aa<><>
+@
+@ 1+
+@ \\s, spaces, tabs, newlines, carriage returns, only, more than
 
 
 
@@ -861,11 +1239,14 @@ Uses look ahead.
 @ look ahead
 
 
+
 ### Match - Does Not Contain
 
 <cb>^((?!<v>text<>).)*$<>
 
 <m>(Confirm)<>
+@
+@ exclude, excluding
 
 
 
@@ -874,6 +1255,7 @@ Uses look ahead.
 <cb>^(?!<v>text<>).*$<>
 
 <m>(Confirm)<>
+@ exclude, excluding
 
 
 
@@ -895,9 +1277,9 @@ Match All:
 
 Match Exactly:
 
-<cb>^-?(\\d*\\.)?\\d+$<>
+<cb>\\A-?(\\d*\\.)?\\d+\\z<>
 
-<cb>^-?([0-9]*[.])?[0-9]+$<>
+<cb>\\A-?([0-9]*[.])?[0-9]+\\z<>
 
 
 Matchs a float including floats with negative values, decimals or no decimals.
@@ -915,13 +1297,12 @@ Matches '12', '34, '5.6', '-7.89':
 
 <cb>ab <m>12<> cd <m>-34<> ef <m>5.6<> gi <m>-7.89<> hj<><>
 
-Example:
 
-<in-2>Match exact float only.
+Match exact float only:
 
-Expression:
+<in-2>Expression:
 
-<cb>^-?(\\d*\\.)?\\d+$<>
+<cb>\\A-?(\\d*\\.)?\\d+\\z<>
 
 Matches '-12.34':
 
@@ -949,19 +1330,17 @@ Match All:
 
 Match Exactly:
 
-<cb>^-?\\d+$<>
+<cb>\\A-?\\d+\\z<>
 
-<cb>^-?[0-9]+$<>
+<cb>\\A-?[0-9]+\\z<>
 
 
 Matches an integer including negative integers.
 
 
-Example:
+Match all integers:
 
-<in-2>Match all integers
-
-Expression:
+<in-2>Expression:
 
 <cb>-?\\d+<>
 
@@ -969,13 +1348,12 @@ Matches '123', '-456':
 
 <cb>abc <m>123<> def <m>-456<> ghi<><>
 
-Example:
 
-<in-2>Match exact integer only.
+Match exact integer only:
 
-Expression:
+<in-2>Expression:
 
-<cb>^-?\\d+$<>
+<cb>\\A-?\\d+\\z<>
 
 Matches '-12':
 
@@ -998,12 +1376,13 @@ No Match:
 <cb>[a-zA-Z]<>
 
 <card><table><col><c>[a-zA-Z]<><><col>1 Letter, Any Case<>
-<col><c>[a-zA-Z]+<><><col>1+ Letters, Any Case<>
+<col><c>[a-zA-Z]+<><><col>1 or More Letters, Any Case<>
 <col><c>[a-zA-Z]{<v>n<>}	<><><col><v>n<> Letters, Any Case<><><>
 
 
 Matches letters of any case.
 @
+@ 1+
 @ [a-z], [a-za-z]
 @ letters, alphabet, ignore, caseless
 
@@ -1014,12 +1393,13 @@ Matches letters of any case.
 <cb>[a-z]<>
 
 <card><table><col><c>[a-z]<><><col>1 Lower Case Letter<>
-<col><c>[a-z]+<><><col>1+ Lower Case Letters<>
+<col><c>[a-z]+<><><col>1 or More Lower Case Letters<>
 <col><c>[a-z]{<v>n<>}	<><><col><v>n<> Lower Case Letters<><><>
 
 
 Matches lower case letters only.
 @
+@ 1+
 @ [a-z]
 @ letters, alphabet
 
@@ -1030,12 +1410,13 @@ Matches lower case letters only.
 <cb>[A-Z]<>
 
 <card><table><col><c>[A-Z]<><><col>1 Upper Case Letter<>
-<col><c>[A-Z]+<><><col>1+ Upper Case Letters<>
+<col><c>[A-Z]+<><><col>1 or More Upper Case Letters<>
 <col><c>[A-Z]{<v>n<>}	<><><col><v>n<> Upper Case Letters<><><>
 
 
 Matches upper case letters only.
 @
+@ 1+
 @ [a-z]
 @ letters, alphabet
 
@@ -1046,18 +1427,16 @@ Matches upper case letters only.
 <cb><s>'<> <s>'<><>
 
 <card><table><col><c> <><><col>1 Space		<><col><c>' '<><>
-<col><c> +<><><col>1+ Spaces<><col><c>' +'<><>
+<col><c> +<><><col>1 or More Spaces<><col><c>' +'<><>
 <col><c> {<v>n<>}	<><><col><v>n<> Spaces<><col><c>' {<v>n<>}'<><><><>
 
 
 Use <c>' '<> (space character) to match spaces.
 
 
-Example:
+Match All Spaces:
 
-<in-2>Match All Spaces
-
-Expression:
+<in-2>Expression:
 
 <cb> +<>
 
@@ -1065,6 +1444,7 @@ Matches '   ':
 
 <cb>abc<m>   <>edf<>
 @
+@ 1+
 @ spaces, space-only, spaces-only
 
 
@@ -1082,6 +1462,7 @@ All Spaces:
 
 Uses look ahead.
 @
+@ 1+
 @ look ahead
 
 
@@ -1103,16 +1484,12 @@ For Case Sensitive Use:
 
 Match Case Sensitive:
 
-<cb><v>...<> WHERE <v>field<> REGEX Binary '<v>regular_expression<>'<>
+<cb><v>...<> WHERE <v>field<> REGEX BINARY '<v>regular_expression<>'<>
 
 
 Example:
 
 <cb>SELECT * FROM <v>contacts<> WHERE <v>last_name<> REGEX <v>'^O[
-
-# Reference - Pattern Symbols
-@
-@ codes, lookup
 
 
 
@@ -1229,52 +1606,9 @@ Example:
 
 
 
-## Symbols - Basics
-
-<table><col><c>.				<><><col>Any Character<>
-<col><c>^<><><col>Starts With<>
-<col><c>$<><><col>Ends With<>
-<col> <>
-<col><c>*<><><col>0 or More Times<>
-<col><c>+<><><col>1 or More Times<>
-<col><c>?<><><col>0 or 1 Times<>
-<col><c>{<v>m<>}<><><col><c><v>m<><> Times<>
-<col><c>{<v>m<>,<v>n<>}<><><col><c><v>m<><> to <c><v>n<><> Times<>
-<col> <>
-<col><c><v>a<>|<v>b<><><><col><c><v>a<><> or <c><v>b<><><>
-<col> <>
-<col><c>[<v>abc<>]<><><col>Set  (one of these)<>
-<col><c>[<v>a<>-<v>z<>]<><><col>Set  (in this range)<>
-<col><c>[^<v>abc<>]<><><col>Not In Set  (not one of these)<>
-<col> <>
-<col><c>(<v>...<>)<><><col>Group<>
-<col> <>
-<col><c>(?\<=<v>...<>)<><><col>Look Ahead<>
-<col><c>(?=<v>...<>)<><><col>Look Behind<>
-<col> <>
-<col><c>^, ^<v>match<><><><col>Starts With<>
-<col><c>$, <v>match<>$<><><col>Ends With<>
-<col> <>
-<col><c>\\<><><col>Escape<>
-<col> <>
-<col><c>\\0<><><col>Null Character<>
-<col><c>\\A<><><col>Start of String<>
-<col><c>\\b<><><col>Beginning or End of Word<>
-<col><c>\\B<><><col>Not Beginning or End of Word<>
-<col><c>\\d<><><col>Digit (0-9)<>
-<col><c>\\D<><><col>Non Digit (0-9)<>
-<col><c>\\f<><><col>Form Feed Character<>
-<col><c>\\n<><><col>Newline<>
-<col><c>\\r<><><col>Carriage Return<>
-<col><c>\\s<><><col>White Space Character<>
-<col><c>\\S<><><col>Non White Space Character<>
-<col><c>\\t<><><col>Tab Character<>
-<col><c>\\w<><><col>Word Character (a-z, A-Z, 0-9, _)<>
-<col><c>\\W<><><col>Non Word Character<>
-<col><c>\\Z<><><col>End of String<><>
+# Reference - Symbols
 @
-@ Codes, table
-
+@ lookup, codes
 
 
 ## Individual Symbols
@@ -1382,7 +1716,7 @@ Match a, b or c
 
 ### Symbol ()
 
-Group
+Capture Group
 
 Expression group, group of matching expressions.
 
@@ -1391,28 +1725,61 @@ Expression group, group of matching expressions.
 @ (, )
 
 
+### Symbol (\<>), ('')
+
+Named Capture Group
+
+<cb>(<v>...<>)<>
+@
+@ (\<, >), (', ')
+
+
 ### Symbol (?\<=)
 
-Match after prefix (look behind).
+Match after prefix (lookbehind).
 
 <cb>(?\<=<v>prefix<>)<>
 
 <cb>(?\<=<v>prefix<>)<v>expression<><>
 @
 @ (?\<=), ?\<=
-@ look ahead
+@ lookahead, look ahead
+
+
+### Symbol (?\<!)
+
+Match excluding prefix (negative lookbehind).
+
+<cb>(?\<!<v>prefix<>)<>
+
+<cb>(?\<!<v>prefix<>)<v>expression<><>
+@
+@ (?\<!), ?\<!
+@ lookahead, look ahead, negative
 
 
 ### Symbol (?=)
 
-Match before postfix (look ahead).
+Match before postfix (lookahead).
 
 <cb>(?=<v>postfix<>)<>
 
 <cb><v>expression<>(?=<v>postfix<>)<>
 @
 @ (?=), ?=
-@ look behind
+@ lookbehind, look behind
+
+
+### Symbol (?!)
+
+Match excluding postfix (negative lookahead).
+
+<cb>(?!<v>postfix<>)<>
+
+<cb><v>expression<>(?=<v>postfix<>)<>
+@
+@ (?!), ?!
+@ lookbehind, look behind, negative
 
 
 ### Symbol \\
@@ -1435,7 +1802,7 @@ Null Character
 
 ### Symbol \\A
 
-Start of String
+Match At Start of String (Start Anchor)
 
 <cb>\\A<>
 
@@ -1539,9 +1906,18 @@ Non Word Character
 <cb>\\W<>
 
 
+### Symbol \\z
+
+Match At End of String
+(End Anchor)
+
+<cb>\\z<>
+
+
 ### Symbol \\Z
 
-End of Strng
+Match At End of String or Before Newline
+(End Anchor)
 
 <cb>\\Z<>
 
@@ -1700,6 +2076,11 @@ $ is the End of String anchor.
 
 ### Capture
 What is being captured / changed.
+
+
+
+### Case Sensitive
+Regular expressions is case sensitive.
 
 
 
