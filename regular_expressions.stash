@@ -1,7 +1,7 @@
 # <#>Regular Expressions<> SpeedSheet
 <b>Find what you need, faster.<>
 
-## Summarized
+## Summary
 
 <table><col><c>.			<><><col>Any Character<>
 <col><c>^<><><col>Starts With<><col><c>^<v>a<><><>
@@ -226,16 +226,24 @@ Matches 'word':
 
 <cb><v>expression<>?<>
 
+
 Matches an expression 0 or 1 times.
 
 
-Expression:
 
-<cb><v>a<>?<v>b<><>
+Match 'cc' or 'bcc':
 
-Matches ab, b, ab:
+<in-2>Expression:
 
-<cb><m>ab<>cc<m>b<>aa<m>ab<><>
+<cb><v>b<>?<v>cc<><>
+
+Matches 'bcc':
+
+<cb>aa<m>bcc<>dd<>
+
+Matches 'cc':
+
+<cb>aa<m>cc<>dd<><><>
 @
 @ ?, 0, 1, zero, one, optionally
 
@@ -247,16 +255,23 @@ Matches ab, b, ab:
 
 <cb><v>expression<>*<>
 
+
 Matches an expression 0 or more times.
 
 
-Expression:
+Match 0 or more 'b's followed by 'c':
 
-<cb><v>a<>*<v>b<><>
+<in-2>Expression:
 
-Matches aaab, b:
+<cb><v>b<>*<v>c<><>
 
-<cb><m>aaab<>aacc<m>b<><>
+Matches 'bbbc':
+
+<cb>aa<m>bbbc<>dd<>
+
+Matches 'c':
+
+<cb>aa<m>c<>dd<><>
 @
 @ *, 0, zero, 0+
 
@@ -268,16 +283,19 @@ Matches aaab, b:
 
 <cb><v>expression<>+<>
 
+
 Matches an expression 1 or more times.
 
 
-Expression:
+Match 1 or more 'b's followed by 'c':
 
-<cb>a+b<>
+<in-2>Expression:
 
-Matches aaab, ab:
+<cb>b+c<>
 
-<cb><m>aaab<>bb<m>a<>b<>
+Matches 'bbbc':
+
+<cb>aa<m>bbbc<>dd<><>
 @
 @ +, 1, 1+, one
 
@@ -288,16 +306,19 @@ Matches aaab, ab:
 
 <cb><v>expression<>{<v>m<>}<>
 
+
 Matches exactly <c><v>m<><> times.
 
 
-Expression:
+Match 3 'a's:
+
+<in-2>Expression:
 
 <cb>a{3}<>
 
-Matches aaa, aaa:
+Matches 'aaa':
 
-<cb>a_aa_<m>aaa<>_<m>aaa<>a<>
+<cb>a aa <m>aaa<><>
 @
 @ {}, {m}
 
@@ -309,16 +330,19 @@ Matches aaa, aaa:
 
 <cb><v>expression<>{<v>m<>,}<>
 
+
 Matches <c><v>m<><> or more times.
 
 
-Expression:
+Match 3 or more 'a's:
+
+<in-2>Expression:
 
 <cb>a{3,}<>
 
-Matches aaa, aaaa:
+Matches 'aaa', 'aaaa':
 
-<cb>a_aa_<m>aaa<>_<m>aaaa<><>
+<cb>a aa <m>aaa<> <m>aaaa<><>
 @
 @ range, {}, {m,n}
 
@@ -333,13 +357,15 @@ Matches aaa, aaaa:
 Matches <c><v>m<><> to <c><v>n<><> times.
 
 
-Expression:
+Match 2 or 3 'a's:
+
+<in-2>Expression:
 
 <cb>a{2,3}<>
 
 Matches aa, aaa, aaa:
 
-<cb>a_<m>aa<>_<m>aaa<>_<m>aaa<>a<>
+<cb>a <m>aa<> <m>aaa<> <m>aaa<>a<><>
 @
 @ range, {}, {m,n}
 
@@ -701,9 +727,9 @@ Matches 'abc', 'def':
 
 ### Matching - Name a Group
 
-<cb>(\<<v>name<>><v>expression<>)
+<cb>(\<<v>name<>><v>expression<>)<>
 
-('<v>name<>'<v>expression<>)<>
+<cb>('<v>name<>'<v>expression<>)<>
 
 
 Matches a expression and assigns it a name.
@@ -726,7 +752,7 @@ Matches a expression and assigns it a name.
 
 
 
-### Match Set - Any One Of
+### Match Set - Any 1 of
 
 <cb>[<v>abc<>]<>
 
@@ -734,15 +760,17 @@ Matches a expression and assigns it a name.
 Matches any one of the values in the set (between <c>[<> and <c>]<>).
 
 
-Match any three a, b or cs:
+Match any combination of 'a', 'b' or 'c's:
 
 <in-2>Expression:
 
-<cb>[abc]{3}<>
+<cb>[abc]+<>
 
-Matches 'aaa', 'abc':
+Matches 'aabac':
 
-<cb><m>aaa<>def<m>abc<>hij<><>
+<cb>123<m>aabac<>456<>
+@
+@ 1, one, []
 
 
 
@@ -754,15 +782,17 @@ Matches 'aaa', 'abc':
 Matches any one of the values in the given range (between <c>[<> and <c>]<>).
 
 
-Match any three letters between a and c:
+Match any combination of letters 'a', to 'c':
 
 <in-2>Expression:
 
-<cb>[a-c]{3}<>
+<cb>[a-c]+<>
 
-Matches 'aaa', 'abc':
+Matches 'aabac':
 
-<cb><m>aaa<>efg<m>abc<>hij<><>
+<cb>123<m>aabac<>456<><>
+@
+@ []
 
 
 
@@ -774,15 +804,15 @@ Matches 'aaa', 'abc':
 Matches any value excluding those in the set (between <c>[^<> and <c>]<>).
 
 
-Match any three letters but not a, b, c:
+Match any combination of letters except a, b, c:
 
 <in-2>Expression:
 
-<cb>[^abc]{3}<>
+<cb>[^abc]+<>
 
-Matches 'efg', 'hij':
+Matches 'efg':
 
-<cb>aaa<m>efg<>abc<m>hij<><><>
+<cb>aaa<m>efg<>bbb<><>
 @
 @ exclude, excluding, except when, not
 
@@ -796,15 +826,15 @@ Matches 'efg', 'hij':
 Matches any value excluding those in range (between <c>[^<> and <c>]<>).
 
 
-Match any three letters but not a, b, c:
+Match any combination letters except a, b, c:
 
 <in-2>Expression:
 
-<cb>[^a-c]{3}<>
+<cb>[^a-c]+<>
 
-Matches 'efg', 'hij':
+Matches 'efg':
 
-<cb>aaa<m>efg<>abc<m>hij<><><>
+<cb>aaa<m>efg<>bbb<><>
 @
 @ exclude, excluding, except when, not
 
@@ -1316,7 +1346,7 @@ No Match:
 
 <cb>a -12.34<><>
 @
-@ number, minus, negative
+@ number, minus, negative, numbers
 
 
 
@@ -1367,7 +1397,7 @@ No Match:
 
 <cb>-12.34<><>
 @
-@ number, minus, negative
+@ numbers, minus, negative
 
 
 
@@ -1419,6 +1449,114 @@ Matches upper case letters only.
 @ 1+
 @ [a-z]
 @ letters, alphabet
+
+
+### Match Word - Simple Words
+
+<cb>[^\\s]+<>
+
+
+Matches all words between white space.
+A word is any combination of non white space characters.
+
+
+Match All Words:
+
+<in-2>Expression:
+
+<cb>[^\\s]+<>
+
+Matches 'these' 'words':
+
+<cb><m>these<> <m>words<><>
+
+
+
+### Match Word - Escaped Words
+
+<cb>(\\\\.|[^\\s])+<>
+
+
+Matches all words between white space except those escaped with '\\'.
+A word is any combination of non white space characters.
+
+
+Match All Words:
+
+<in-2>Expression:
+
+<cb>(\\\\.|[^\\s])+<>
+
+Matches 'these' 'escaped\\ words':
+
+<cb><m>these<> <m>escaped\\ words<><>
+
+
+
+### Match Word - Words in Quotes
+
+<cb>"[^"]*"<>
+
+
+Matches all words wrapped in double quotes.
+
+
+Match All Words:
+
+<in-2>Expression:
+
+<cb>"[^"]*"<>
+
+Matches '"these words"':
+
+<cb>only matches <m>"these words"<><>
+
+
+
+### Match Word - Escaped Words in Quotes
+
+<cb>(?\<=")(\\\\.|[^"])*"<>
+
+
+Matches all words wrapped in double quotes.
+Allows escaped double quotes inside the match.
+The outer double quotes are returned as part of the match.
+
+
+Match All Words:
+
+<in-2>Expression:
+
+<cb>"(\\\\.|[^"])*"<>
+
+Matches '"these \\"escaped\\" words"':
+
+<cb>matches <m>"these \\"escaped\\" words"<><>
+
+
+
+### Match Word - All Words, With Espaces, With or Without Quotes,
+
+<cb>((?\<=")(\\\\.|[^"])+(?="))|((\\\\.|[^\\"\\s])(\\\\.|[^\\s])+)<>
+
+
+Matches all words between white spaces.
+Quoted strings are matched correctly.
+The outer double quotes are excluded from the match.
+All escaped characters are honored (\\<v>x<>).
+
+
+Match All Words:
+
+<in-2>Expression:
+
+<cb>((?\<=")(\\\\.|[^"])+(?="))|((\\\\.|[^\\"\\s])(\\\\.|[^\\s])+)<>
+
+Matches 'all' 'these' 'escaped\\ words' 'quoted and \\"escaped\\" words':
+
+<cb><m>all<> <m>these<> <m>escaped\\ words<> "<m>quoted and \\"escaped\\" words<>"<>
+@
+@ escaped
 
 
 
@@ -1729,7 +1867,9 @@ Expression group, group of matching expressions.
 
 Named Capture Group
 
-<cb>(<v>...<>)<>
+<cb>(\<<v>name<>><v>expression<>)<>
+
+<cb>('<v>name<>'<v>expression<>)<>
 @
 @ (\<, >), (', ')
 
@@ -1780,6 +1920,38 @@ Match excluding postfix (negative lookahead).
 @
 @ (?!), ?!
 @ lookbehind, look behind, negative
+
+
+### Symbol (?:)
+
+Non matching group.
+
+<cb>(?:<v>expression<>)<>
+
+<cb><v>match<>(?:<v>match_but_dont_return<>)<>
+@
+@ (?:), ?:
+@ non matching group
+
+
+### Symbol (?:)
+
+Non matching group.
+
+<cb>(?:<v>expression<>)<>
+@
+@ (?:), ?:
+@ non matching group
+
+
+### Symbol (?#)
+
+Match comment.
+
+<cb>(?#<v>comment<>)<>
+@
+@ (?:), ?:
+@ non matching group
 
 
 ### Symbol \\
