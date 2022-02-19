@@ -3,7 +3,7 @@
 
 ## Summary
 
-<table><col><c>.			<><><col>Any Character<>
+<table><col><c>.			 <><><col>Any Character<>
 <col><c>^<><><col>Starts With<><col><c>^<v>a<><><>
 <col><c>$<><><col>Ends With<><col><c><v>a<>$<><>
 <col><c>|<><><col>Or<><col><c><v>a<>|<v>b<><><>
@@ -47,9 +47,11 @@
 <col><c>\\Z<><><col>String Ends With
   or Ends With Before Newline<><col><c>(<v>ending_with<>)\\Z<><><>
 
-Special Characters:
+Special Characters<super><#>1<><> :
 
-<c>. \\ + * ? [ ^ ] $ ( ) { } = ! \< > | : -<>
+<cb>. + * ^ : ! ? $ - = \\ / | \< > [ ] ( ) { }<>
+
+1 - Escape These
 
 
 
@@ -65,7 +67,7 @@ Escape special characters with a \\.
 
 Escape these characters:
 
-<cb>. + * ^ : ! ? $ - = \\ | \< > [ ] ( ) { }<>
+<cb>. + * ^ : ! ? $ - = \\ / | \< > [ ] ( ) { }<>
 
 
 
@@ -81,6 +83,7 @@ Escape these characters:
 <col>Tab Character<><col><c>\\t<><>
 <col> <>
 <col><c>\\<><><col><c>\\\\<><>
+<col><c>/<><><col><c>\\/<><>
 <col><c>.<><><col><c>\\.<><>
 <col><c>+<><><col><c>\\+<><>
 <col><c>*<><><col><c>\\*<><>
@@ -1295,6 +1298,10 @@ YYYY-MM-DD
 
 <cb>\\d{4}-\\d{2}-\\d{2}<>
 
+YYYY-MM-DD / YYYY-M-D / YYYY.M.D
+
+<cb>\d{4}[-\.]\d\d?[-\.]\d\d?<>
+
 
 
 ### Match - Float
@@ -2169,6 +2176,13 @@ Escaped <c>=<>
 Escaped <c>\\<>
 
 <cb>\\\\<>
+
+
+### Symbol \\/
+
+Escaped <c>/<>
+
+<cb>\\/<>
 
 
 ### Symbol \\|
