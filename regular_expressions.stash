@@ -1,7 +1,46 @@
 # <#>Regular Expressions<> SpeedSheet
-<b>Find what you need, faster.<>
+<b>Find it faster.<>
 
-## Summary
+This is an interactive <b>Regular Expression<> cheat sheet. A regular expression is a pattern matching syntax used to search and replace patterns of text. Use the search to instantly get answers.
+
+
+<table><col><b>Basics<>
+
+<*><link "?q=expression+summary">Syntax Summary<><>
+
+<*><link "?q=match+exactly">Match Exactly<>
+<link "?q=match+set#match_set_-_basics">Match Set<>
+<link "?q=match+characters#match_characters_-_basics">Match By Character Type<><>
+
+<*><link "?q=match+count#match_counts_-_basics">Match By Counts<>
+<link "?q=match+position#match_positional_-_basics">Match By Position<>
+<link "?q=match+group-only">Match Groups<><>
+
+<*><link "?q=escape-only#escape_basics">Escape<><>
+
+<b>Reference<>
+
+<*><link "?q=symbol-only">Symbol Lookup<>
+<link "?q=terms">Terms<><>
+<><col><b>How To<>
+
+<*><link "?q=how+to">How To<><>
+
+<*><link "?q=date">Date<>
+<link "?q=email">Email<>
+<link "?q=float">Float<>
+<link "?q=integer">Integer<>
+<link "?q=how+to+letter">Letter<>
+<link "?q=space">Space<>
+<link "?q=word">Word<><>
+
+<b>Language<>
+
+<*><link "?q=mysql">MySql<>
+<link "?q=python">Python<><><><>
+
+
+## Regex Summary
 
 <table><col><c>.			 <><><col>Any Character<>
 <col><c>^<><><col>Starts With<><col><c>^<v>a<><><>
@@ -56,6 +95,8 @@ Special Characters<super><#>1<><> :
 
 
 # Escape
+@
+@ escape-only
 
 
 ### Escape Basics
@@ -703,10 +744,12 @@ No Match For:
 
 
 
-## Matching - Group
+## Match - Group
+@
+@ group-only
 
 
-### Matching - Group Expression
+### Match - Group Expression
 
 <cb>(<v>expression<>)<>
 
@@ -1304,6 +1347,31 @@ YYYY-MM-DD / YYYY-M-D / YYYY.M.D
 
 
 
+### Match - Email
+
+Simple Expression:
+
+<cb>^\S+@\S+\.\S+$<>
+
+Complete Expression:
+
+<cb>(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])<>
+
+Email addresses are surprisingly complicated.
+Validate with a library instead of a regular expression.
+Or just use the simple version and test by sending an actual email.
+
+
+Source:
+<l>http://emailregex.com/<>
+
+Full Spec (RFC 5322):
+<l>https://www.ietf.org/rfc/rfc5322.txt<>
+@
+@ address
+
+
+
 ### Match - Float
 
 Match All:
@@ -1312,7 +1380,7 @@ Match All:
 
 <cb>-?([0-9]*[.])?[0-9]+<>
 
-Match Exactly:
+Matches Exact Only:
 
 <cb>\\A-?(\\d*\\.)?\\d+\\z<>
 
@@ -1335,7 +1403,7 @@ Matches '12', '34, '5.6', '-7.89':
 <cb>ab <m>12<> cd <m>-34<> ef <m>5.6<> gi <m>-7.89<> hj<><>
 
 
-Match exact float only:
+Match Exact Float Only:
 
 <in-2>Expression:
 
@@ -1365,7 +1433,7 @@ Match All:
 
 <cb>-?[0-9]+<>
 
-Match Exactly:
+Matches Exact Only:
 
 <cb>\\A-?\\d+\\z<>
 
@@ -1375,7 +1443,7 @@ Match Exactly:
 Matches an integer including negative integers.
 
 
-Match all integers:
+Match All Integers:
 
 <in-2>Expression:
 
@@ -1386,7 +1454,7 @@ Matches '123', '-456':
 <cb>abc <m>123<> def <m>-456<> ghi<><>
 
 
-Match exact integer only:
+Match Exact Integer Only:
 
 <in-2>Expression:
 
@@ -1458,7 +1526,7 @@ Matches upper case letters only.
 @ letters, alphabet
 
 
-### Match Word - Simple Words
+### Match - Words - Extract Words
 
 <cb>[^\\s]+<>
 
@@ -1479,7 +1547,7 @@ Matches 'these' 'words':
 
 
 
-### Match Word - Escaped Words
+### Match - Words - Extract Escaped Words
 
 <cb>(\\\\.|[^\\s])+<>
 
@@ -1500,7 +1568,7 @@ Matches 'these' 'escaped\\ words':
 
 
 
-### Match Word - Words in Quotes
+### Match - Words - Extract Words in Quotes
 
 <cb>"[^"]*"<>
 
@@ -1520,7 +1588,7 @@ Matches '"these words"':
 
 
 
-### Match Word - Escaped Words in Quotes
+### Match - Words - Extract Escaped Words in Quotes
 
 <cb>(?\<=")(\\\\.|[^"])*"<>
 
@@ -1542,7 +1610,7 @@ Matches '"these \\"escaped\\" words"':
 
 
 
-### Match Word - All Words, With Espaces, With or Without Quotes,
+### Match - Words - Extract All Words, With Espaces, With or Without Quotes,
 
 <cb>((?\<=")(\\\\.|[^"])+(?="))|((\\\\.|[^\\"\\s])(\\\\.|[^\\s])+)<>
 
@@ -1612,6 +1680,52 @@ Uses look ahead.
 
 
 
+### Match - Variable - camelCase / TitleCase To Words
+
+<cb>(\d+)|([A-Z][a-z]+)|([a-z]+)|([A-Z]+(?![a-z]))<>
+
+
+Returns the name as a list of words.
+
+
+Removes underscores.
+Digits are returned separately.
+
+
+Examples:
+
+<in-2><table><col>"aClassName"<><col>-><><col>"<m>a<>" "<m>Class<>" "<m>Name<>"<>
+<col> <>
+<col>"item2Date"<><col>-><><col>"<m>item<>" "<m>2<>" "<m>Date<>"<>
+<col> <>
+<col>"HTMLParser"<><col>-><><col>"<m>HTML<>" "<m>Parser<>"<><><>
+@
+@ java variable name
+
+
+### Match - Variable - snake_case To Words
+
+<cb>[^\s_]+<>
+
+
+Returns the name as a list of words.
+
+
+Removes the underscores.
+
+
+Examples:
+
+<in-2><table><col>"a_variable_name"<><col>-><><col>"<m>a<>" "<m>variable<>" "<m>name<>"<>
+<col> <>
+<col>"_private_method"<><col>-><><col>"<m>private<>" "<m>method<>"<>
+<col> <>
+<col>"__dunder_method__"<><col>-><><col>"<m>dunder<>" "<m>method<>"<>
+<col> <>
+<col>"A_CONSTANT"<><col>-><><col>"<m>A<>" "<m>CONSTANT<>"<><><>
+
+
+
 # Reference - By Language
 
 
@@ -1634,7 +1748,7 @@ Match Case Sensitive:
 
 Example:
 
-<cb>SELECT * FROM <v>contacts<> WHERE <v>last_name<> REGEX <v>'^O[
+<cb>SELECT * FROM <v>contacts<> WHERE <v>last_name<> REGEX <v>'^O'<><>
 
 
 
@@ -1753,10 +1867,7 @@ Example:
 
 # Reference - Symbols
 @
-@ lookup, codes
-
-
-## Individual Symbols
+@ lookup, codes, symbol-only, symbols-only
 
 
 ### Symbol .

@@ -1,1 +1,4 @@
-regular-expressions-next.stash
+.DS_Store
+*next.stash
+backups/
+wip/
