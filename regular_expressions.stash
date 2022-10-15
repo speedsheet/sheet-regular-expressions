@@ -571,15 +571,15 @@ Matches the very start of a string.
 <c>^<> must be the first character the expression to match the start of a string.
 
 
-Match strings starting with 1:
+Match strings starting with 123:
 
 <in-2>Expression:
 
-<cb>^<v>1<>\\d+<>
+<cb>^<v>123<><>
 
-Matches '1234':
+Matches '123':
 
-<cb><m>1234<><>
+<cb><m>123<>456<>
 
 No Match For:
 
@@ -617,15 +617,15 @@ Matches the very start of a string.
 <c>^<> must be the first character the expression to match the start of a string.
 
 
-Match strings starting with 1:
+Match strings starting with 123:
 
 <in-2>Expression:
 
-<cb>\\A<v>1<>\\d+<>
+<cb>\\A<v>123<><>
 
-Matches '1234':
+Matches '123':
 
-<cb><m>1234<><>
+<cb><m>123<>456<>
 
 No Match For:
 
@@ -649,19 +649,19 @@ Matches the very end of a string.
 <c>^<> must be the last character the expression to match the end of a string.
 
 
-Match strings ending with 1:
+Match strings ending with 321:
 
 <in-2>Expression:
 
-<cb>\\d+<v>1<>$<>
+<cb><v>321<>$<>
 
-Matches '4321':
+Matches '321':
 
-<cb><m>4321<><>
+<cb>4<m>321<><>
 
 No Match For:
 
-<cb>5432<><>
+<cb>321 5432<><>
 
 
 Match strings ending with 'post'.
@@ -695,19 +695,19 @@ Matches the very end of a string.
 <c>\\z<> must be the last character the expression to match the end of a string.
 
 
-Match strings ending with 1:
+Match strings ending with 321:
 
 <in-2>Expression:
 
 <cb>\\d+<v>1<>\\z<>
 
-Matches '4321':
+Matches '321':
 
-<cb><m>4321<><>
+<cb>4<m>321<><>
 
 No Match For:
 
-<cb>5432<><>
+<cb>321 5432<><>
 @
 @ postfix, suffix, ends, \\z
 
@@ -726,19 +726,20 @@ Matches the very end of a string or up to newline if present.
 <c>\\Z<> must be the last character the expression to match the end.
 
 
-Match strings ending with 1:
+Match strings ending with 321:
 
 <in-2>Expression:
 
-<cb>\\d+<v>1<>\\Z<>
+<cb><v>321<>\\Z<>
 
-Matches '4321':
+Matches '321':
 
-<cb><m>4321<><>
+<cb>4<m>321<>
+<>
 
 No Match For:
 
-<cb>5432<><>
+<cb>54321<><>
 @
 @ postfix, suffix, ends, \\z
 
@@ -1027,7 +1028,7 @@ Matches 'a$', 'a!':
 
 <cb>a1<m>a$<>aa<m>a!<>ab<><>
 @
-@ \\w, single, a-z, 0-9, _, letters, numeric, or, only
+@ \\w, single, a-z, 0-9, _, letters, numeric, or, only, not an
 
 
 
@@ -1055,7 +1056,7 @@ Matches 'a$!%', 'a?+!':
 @
 @ 1+
 @ \\w, a-z, 0-9, _,
-@ letters, numbers, or, and, alphanumerics, numerics, only, more than, every, all
+@ letters, numbers, or, and, alphanumerics, numerics, only, more than, every, all, not an
 
 
 
@@ -1141,7 +1142,7 @@ Matches 'aa', 'ab':
 
 <cb><m>aa<>a1<m>ab<>a2<><>
 @
-@ single, \\d, numbers, numeric, 0-9, [^0-9], only
+@ single, \\d, numbers, numeric, 0-9, [^0-9], only, not a
 
 
 
@@ -1179,7 +1180,7 @@ Matches 'abbb', 'a$$$':
 <cb><m>abbb<>bbabb1<m>a$$$<>a111aa<><>
 @
 @ 1+
-@ \\d, numbers, numeric, 0-9, [^0-9], only, more than
+@ \\d, numbers, numeric, 0-9, [^0-9], only, more than, not a
 
 
 
@@ -1254,7 +1255,7 @@ Matches 'aa', 'ab':
 
 <cb><m>aa<>a <m>ab<>a <><>
 @
-@ single, \\s, space, tab, newline, carriage return
+@ single, \\s, space, tab, newline, carriage return, not a
 
 
 
@@ -1292,7 +1293,7 @@ Matches 'abbb', 'a$$$':
 <cb><m>abbb<>bbabb <m>a$$$<>a   aa<><>
 @
 @ 1+
-@ \\s, spaces, tabs, newlines, carriage returns, only, more than
+@ \\s, spaces, tabs, newlines, carriage returns, only, more than, not a
 
 
 
@@ -1341,9 +1342,13 @@ YYYY-MM-DD
 
 <cb>\\d{4}-\\d{2}-\\d{2}<>
 
-YYYY-MM-DD / YYYY-M-D / YYYY.M.D
+YYYY/MM/DD  |  YYYY/M/D  |  YYYY-M-D  |  YYYY.M.D
 
-<cb>\d{4}[-\.]\d\d?[-\.]\d\d?<>
+<cb>\\d{4}[-\\./]\\d{1,2}[-\\./]\\d{1,2}<>
+
+Exact Match:
+
+<cb>^(\\d{4})[-\\./]\\d{1,2}[-\\./](\\d{1,2})$<>
 
 
 
@@ -1476,13 +1481,62 @@ No Match:
 
 
 
+### Match - Identifier - camelCase / TitleCase To Words
+
+<cb>(\d+)|([A-Z][a-z]+)|([a-z]+)|([A-Z]+(?![a-z]))<>
+
+
+Returns the identifier name as a list of words.
+
+
+Removes underscores.
+Digits are returned separately.
+
+
+Examples:
+
+<in-2><table><col>"aClassName"<><col>-><><col>"<m>a<>" "<m>Class<>" "<m>Name<>"<>
+<col> <>
+<col>"item2Date"<><col>-><><col>"<m>item<>" "<m>2<>" "<m>Date<>"<>
+<col> <>
+<col>"HTMLParser"<><col>-><><col>"<m>HTML<>" "<m>Parser<>"<><><>
+@
+@ java variable name
+
+
+
+### Match - Identifier - snake_case To Words
+
+<cb>[^\s_]+<>
+
+
+Returns the identifier name as a list of words.
+
+
+Removes the underscores.
+
+
+Examples:
+
+<in-2><table><col>"a_variable_name"<><col>-><><col>"<m>a<>" "<m>variable<>" "<m>name<>"<>
+<col> <>
+<col>"_private_method"<><col>-><><col>"<m>private<>" "<m>method<>"<>
+<col> <>
+<col>"__dunder_method__"<><col>-><><col>"<m>dunder<>" "<m>method<>"<>
+<col> <>
+<col>"A_CONSTANT"<><col>-><><col>"<m>A<>" "<m>CONSTANT<>"<><><>
+@
+@ python
+
+
+
 ### Match - Letter - Any Case
 
 <cb>[a-zA-Z]<>
 
 <card><table><col><c>[a-zA-Z]<><><col>1 Letter, Any Case<>
 <col><c>[a-zA-Z]+<><><col>1 or More Letters, Any Case<>
-<col><c>[a-zA-Z]{<v>n<>}	<><><col><v>n<> Letters, Any Case<><><>
+<col><c>[a-zA-Z]{<v>n<>}  <><><col><v>n<> Letters, Any Case<><><>
 
 
 Matches letters of any case.
@@ -1490,6 +1544,7 @@ Matches letters of any case.
 @ 1+
 @ [a-z], [a-za-z]
 @ letters, alphabet, ignore, caseless
+@ letter-only, letters-only
 
 
 
@@ -1499,7 +1554,7 @@ Matches letters of any case.
 
 <card><table><col><c>[a-z]<><><col>1 Lower Case Letter<>
 <col><c>[a-z]+<><><col>1 or More Lower Case Letters<>
-<col><c>[a-z]{<v>n<>}	<><><col><v>n<> Lower Case Letters<><><>
+<col><c>[a-z]{<v>n<>} <><><col><v>n<> Lower Case Letters<><><>
 
 
 Matches lower case letters only.
@@ -1507,6 +1562,7 @@ Matches lower case letters only.
 @ 1+
 @ [a-z]
 @ letters, alphabet
+@ letter-only, letters-only
 
 
 
@@ -1516,7 +1572,7 @@ Matches lower case letters only.
 
 <card><table><col><c>[A-Z]<><><col>1 Upper Case Letter<>
 <col><c>[A-Z]+<><><col>1 or More Upper Case Letters<>
-<col><c>[A-Z]{<v>n<>}	<><><col><v>n<> Upper Case Letters<><><>
+<col><c>[A-Z]{<v>n<>} <><><col><v>n<> Upper Case Letters<><><>
 
 
 Matches upper case letters only.
@@ -1524,6 +1580,62 @@ Matches upper case letters only.
 @ 1+
 @ [a-z]
 @ letters, alphabet
+@ letter-only, letters-only
+
+
+
+### Match - Non-Letter - Any Case
+
+<cb>[^a-zA-Z]<>
+
+<card><table><col><c>[^a-zA-Z]<><><col>1 Letter, Any Case<>
+<col><c>[^a-zA-Z]+<><><col>1 or More Letters, Any Case<>
+<col><c>[^a-zA-Z]{<v>n<>}  <><><col><v>n<> Letters, Any Case<><><>
+
+
+Matches non letters of any case.
+@
+@ 1+
+@ [a-z], [a-za-z]
+@ letters, alphabet, ignore, caseless, not a
+@ letter-only, letters-only
+
+
+
+### Match - Non-Letter - Lower Case Only
+
+<cb>[a-z]<>
+
+<card><table><col><c>[a-z]<><><col>1 Lower Case Letter<>
+<col><c>[a-z]+<><><col>1 or More Lower Case Letters<>
+<col><c>[a-z]{<v>n<>} <><><col><v>n<> Lower Case Letters<><><>
+
+
+Matches non lower case letters only.
+@
+@ 1+
+@ [a-z]
+@ letters, alphabet, not a
+@ letter-only, letters-only
+
+
+
+### Match - Non-Letter - Upper Case Only
+
+<cb>[^A-Z]<>
+
+<card><table><col><c>[^A-Z]<><><col>1 Upper Case Letter<>
+<col><c>[^A-Z]+<><><col>1 or More Upper Case Letters<>
+<col><c>[^A-Z]{<v>n<>} <><><col><v>n<> Upper Case Letters<><><>
+
+
+Matches non upper case letters only.
+@
+@ 1+
+@ [a-z]
+@ letters, alphabet, not a
+@ letter-only, letters-only
+
 
 
 ### Match - Words - Extract Words
@@ -1677,52 +1789,6 @@ Uses look ahead.
 @
 @ 1+
 @ look ahead
-
-
-
-### Match - Variable - camelCase / TitleCase To Words
-
-<cb>(\d+)|([A-Z][a-z]+)|([a-z]+)|([A-Z]+(?![a-z]))<>
-
-
-Returns the name as a list of words.
-
-
-Removes underscores.
-Digits are returned separately.
-
-
-Examples:
-
-<in-2><table><col>"aClassName"<><col>-><><col>"<m>a<>" "<m>Class<>" "<m>Name<>"<>
-<col> <>
-<col>"item2Date"<><col>-><><col>"<m>item<>" "<m>2<>" "<m>Date<>"<>
-<col> <>
-<col>"HTMLParser"<><col>-><><col>"<m>HTML<>" "<m>Parser<>"<><><>
-@
-@ java variable name
-
-
-### Match - Variable - snake_case To Words
-
-<cb>[^\s_]+<>
-
-
-Returns the name as a list of words.
-
-
-Removes the underscores.
-
-
-Examples:
-
-<in-2><table><col>"a_variable_name"<><col>-><><col>"<m>a<>" "<m>variable<>" "<m>name<>"<>
-<col> <>
-<col>"_private_method"<><col>-><><col>"<m>private<>" "<m>method<>"<>
-<col> <>
-<col>"__dunder_method__"<><col>-><><col>"<m>dunder<>" "<m>method<>"<>
-<col> <>
-<col>"A_CONSTANT"<><col>-><><col>"<m>A<>" "<m>CONSTANT<>"<><><>
 
 
 
@@ -2357,6 +2423,17 @@ Escaped <c>{<>
 Escaped <c>}<>
 
 <cb>\\}<>
+
+
+
+# Reference - Online Resources
+
+
+### Online Regular Expression - Regex 101
+
+<l>https://regex101.com/<>
+@
+@ test
 
 
 
