@@ -141,6 +141,8 @@ Escape these characters:
 <col><c>[ ]<><><col><c>\\[ \\]<><>
 <col><c>( )<><><col><c>\\( \\)<><>
 <col><c>{ }<><><col><c>\\{ \\}<><><><>
+@
+@ special character
 
 
 
@@ -924,7 +926,7 @@ Matches 'ab', 'ac':
 
 <cb><m>ab<>bb<m>ac<>a<><>
 @
-@ ., single, only
+@ ., single, only, wildcards
 
 
 
@@ -951,7 +953,7 @@ Matches 'a123', 'abcd':
 <cb><m>a123<>123<m>abcd<>3aaa<><>
 @
 @ 1+
-@ ., only, more than, everything, every character, all
+@ ., only, more than, everything, every character, all, wildcards
 
 
 
@@ -1379,20 +1381,14 @@ Full Spec (RFC 5322):
 
 ### Match - Float
 
-Match All:
-
 <cb>-?(\\d*\\.)?\\d+<>
 
 <cb>-?([0-9]*[.])?[0-9]+<>
 
-Matches Exact Only:
 
-<cb>\\A-?(\\d*\\.)?\\d+\\z<>
+Matchs float values in a string.
 
-<cb>\\A-?([0-9]*[.])?[0-9]+\\z<>
-
-
-Matchs a float including floats with negative values, decimals or no decimals.
+Matches include floats with negative values, decimals or no decimals.
 
 
 Example:
@@ -1406,9 +1402,25 @@ Expression:
 Matches '12', '34, '5.6', '-7.89':
 
 <cb>ab <m>12<> cd <m>-34<> ef <m>5.6<> gi <m>-7.89<> hj<><>
+@
+@ number, minus, negative, numbers
 
 
-Match Exact Float Only:
+
+### Match - Float Only
+
+<cb>\\A-?(\\d*\\.)?\\d+\\z<>
+
+<cb>\\A-?([0-9]*[.])?[0-9]+\\z<>
+
+
+Matchs a string that is a float
+
+Matches include floats with negative values, decimals or no decimals.
+The entire string must be a float and only a float.
+
+
+Match Float Exactly:
 
 <in-2>Expression:
 
@@ -1438,14 +1450,10 @@ Match All:
 
 <cb>-?[0-9]+<>
 
-Matches Exact Only:
 
-<cb>\\A-?\\d+\\z<>
+Matches integers contained in a string.
 
-<cb>\\A-?[0-9]+\\z<>
-
-
-Matches an integer including negative integers.
+Includes negative integers.
 
 
 Match All Integers:
@@ -1457,6 +1465,24 @@ Match All Integers:
 Matches '123', '-456':
 
 <cb>abc <m>123<> def <m>-456<> ghi<><>
+@
+@ numbers, minus, negative
+
+
+
+### Match - Integer Only
+
+Matches Exact Only:
+
+<cb>\\A-?\\d+\\z<>
+
+<cb>\\A-?[0-9]+\\z<>
+
+
+Matches a string that is an integer.
+
+The entire string must be an integer.
+Includes negative integers.
 
 
 Match Exact Integer Only:
@@ -1697,6 +1723,8 @@ Match All Words:
 Matches '"these words"':
 
 <cb>only matches <m>"these words"<><>
+@
+@ quoted
 
 
 
@@ -1719,6 +1747,8 @@ Match All Words:
 Matches '"these \\"escaped\\" words"':
 
 <cb>matches <m>"these \\"escaped\\" words"<><>
+@
+@ quoted
 
 
 
@@ -1743,7 +1773,7 @@ Matches 'all' 'these' 'escaped\\ words' 'quoted and \\"escaped\\" words':
 
 <cb><m>all<> <m>these<> <m>escaped\\ words<> "<m>quoted and \\"escaped\\" words<>"<>
 @
-@ escaped
+@ escaped, quoted
 
 
 
@@ -1789,6 +1819,44 @@ Uses look ahead.
 @
 @ 1+
 @ look ahead
+
+
+
+### Match - Url - Scheme
+
+<cb>^([a-z][a-z0-9+\\-.]*)://<>
+
+
+Matches the scheme part of a URL.
+
+
+Example:
+
+<in-2>Matches 'https://':
+
+<cb><m>https://<>speedsheet.io/s/regular_expressions<><>
+@
+@ part
+
+
+
+### Match - Url - Scheme without '://'
+
+<cb>^([a-z][a-z0-9+\\-.]*)(?=://)<>
+
+
+Matches the scheme part of a URL.
+
+Excludes the <c>://<>.
+
+
+Example:
+
+<in-2>Matches 'https':
+
+<cb><m>https<>://speedsheet.io/s/regular_expressions<><>
+@
+@ part
 
 
 
