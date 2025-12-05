@@ -530,7 +530,7 @@ Matches aa, aaa, aaa:
 
 Matches a string before the postfix.
 
-Performs a look behind to make the match.
+Performs a lookahead to make the match.
 Excludes the postfix in the match.
 
 
@@ -545,7 +545,7 @@ Matches '222':
 <cb>111aaa<hl>222<><v>post<>333<><>
 @
 @ (?=), ?=
-@ suffix, postfix, ends with, ending with, look behind, look around, lookaround
+@ suffix, postfix, ends with, ending with, look ahead, look around, lookaround
 
 
 
@@ -558,7 +558,7 @@ Matches '222':
 
 Matches a string excluding where the postfix exists.
 
-Performs a look behind to make the match.
+Performs a lookbehind to make the match.
 Excludes the postfix in the match.
 
 
@@ -577,68 +577,68 @@ Matches '222':
 <cb>aaa<hl>222<>not-post<><>
 @
 @ (?!), ?!
-@ suffix, postfix, not ends with, not ending with, look behind, look around, lookaround
+@ suffix, postfix, not ends with, not ending with, look ahead, look around, lookaround
 @ excludes, excluding, except when
 
 
 
-### Match - Before / Lookbehind
+### Match - After / Lookbehind
 
-<cb>(?=<v>before_this<>)<>
+<cb>(?\<=<v>after_this<>)<>
 
-<cb><v>match<>(?=<v>before_this<>)<>
-
-
-Matches a string before the postfix.
-
-Performs a look behind to make the match.
-Excludes the postfix in the match.
+<cb>(?\<=<v>after_this<>)<v>match<><>
 
 
-Match 3 digits before 'post':
+Matches a string after the prefix.
+
+Performs a lookbehind to make the match.
+Excludes the prefix in the match.
+
+
+Match 3 digits after 'pre':
 
 <in 2>Expression:
 
-<cb><v>\\d{3}<>(?=<v>post<>)<>
+<cb>(?\<=<v>pre<>)<v>\\d{3}<><>
 
 Matches '222':
 
-<cb>111aaa<hl>222<><v>post<>333<><>
+<cb>111<v>pre<><hl>222<>aaa333<><>
 @
-@ (?=), ?=
-@ suffix, postfix, ends with, ending with, look behind, look around, lookaround
+@ (?\<=), ?\<=
+@ prefix, starting with, starts with, look behind, look around, lookaround
 
 
 
-### Match - Not Before / Negative Lookbehind
+### Match - Not After / Negative Lookbehind
 
-<cb>(?!<v>not_before_this<>)<>
+<cb>(?\<!<v>not_after_this<>)<>
 
-<cb><v>match<>(?!<v>not_before_this<>)<>
-
-
-Matches a string excluding where the postfix exists.
-
-Performs a look behind to make the match.
-Excludes the postfix in the match.
+<cb>(?\<!<v>not_after_this<>)<v>match<><>
 
 
-Match 3 digits, no trailing 'post':
+Matches a string excluding where the prefix is present.
+
+Performs a lookbehind to make the match.
+Excludes the prefix in the match.
+
+
+Match 3 digits when no 'pre' prefix:
 
 <in 2>Expression:
 
-<cb><v>\\d{3}<>(?!<v>post<>)<>
+<cb>(?\<!<v>pre<>)<v>\\d{3}<><>
 
 No Match:
 
-<cb>aaa222<v>post<><>
+<cb>pre123<>
 
 Matches '222':
 
-<cb>aaa<hl>222<>not-post<><>
+<cb>abc<hl>222<>efg<><>
 @
-@ (?!), ?!
-@ suffix, postfix, not ends with, not ending with, look behind, look around, lookaround
+@ (?\<!), ?\<!
+@ prefix, not starting with, not starts with, look behind, look around, lookaround
 @ excludes, excluding, except when
 
 
@@ -2234,7 +2234,7 @@ Match after prefix (lookbehind).
 <cb>(?\<=<v>prefix<>)<v>expression<><>
 @
 @ (?\<=), ?\<=
-@ lookahead, look ahead
+@ lookbehind, look behind
 
 
 ### Symbol (?\<!)
@@ -2267,10 +2267,10 @@ Match excluding postfix (negative lookahead).
 
 <cb>(?!<v>postfix<>)<>
 
-<cb><v>expression<>(?=<v>postfix<>)<>
+<cb><v>expression<>(?!<v>postfix<>)<>
 @
 @ (?!), ?!
-@ lookbehind, look behind, negative
+@ lookahead, look ahead, negative
 
 
 ### Symbol (?:)
